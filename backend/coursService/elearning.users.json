@@ -1,0 +1,137 @@
+[{
+  "_id": {
+    "$oid": "6988ea6ad6b212cfbd98ac6a"
+  },
+  "email": "azouztarek47@gmail.com",
+  "password": "$2b$10$NvYWgornQG7H2vFgJ4wHJe5bSoMQ9NU2g48wiv5KD22uUf7kFoeky",
+  "role": "student",
+  "profile": {
+    "firstName": "azouz",
+    "lastName": "tarek",
+    "phone": "+21628642656",
+    "dateOfBirth": {
+      "$date": "2002-05-21T00:00:00.000Z"
+    },
+    "avatar": "http://localhost:8002/media/users/default-avatar.jpg"
+  },
+  "address": {
+    "street": "Tozeur",
+    "city": "tozeur",
+    "state": "tozeur",
+    "country": "TN",
+    "zipCode": "2200"
+  },
+  "isActive": true,
+  "isVerified": true,
+  "createdAt": {
+    "$date": "2026-02-08T19:56:26.249Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-02T12:40:15.501Z"
+  },
+  "lastLogin": {
+    "$date": "2026-03-02T12:40:15.498Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6988ed1fd6b212cfbd98ac7c"
+  },
+  "email": "titoazouz47@gmail.com",
+  "password": "$2b$10$735Q27RVgibfE1isHu4hF.oUuzaktDNv1xM.NwjlXSaHWykCXWOj2",
+  "role": "admin",
+  "profile": {
+    "firstName": "Azouz",
+    "lastName": "Tarek",
+    "phone": "+21640345678",
+    "dateOfBirth": {
+      "$date": "1990-01-15T00:00:00.000Z"
+    },
+    "avatar": "http://localhost:8002/media/users/default-avatar.jpg"
+  },
+  "address": {
+    "street": "123 Main Street",
+    "city": "Tozeur",
+    "state": "TZ",
+    "country": "TN",
+    "zipCode": "2241"
+  },
+  "isActive": true,
+  "isVerified": true,
+  "createdAt": {
+    "$date": "2026-02-08T20:07:59.838Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-18T20:04:04.312Z"
+  },
+  "lastLogin": {
+    "$date": "2026-02-18T20:04:04.311Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "email": "hajrilouay007@gmail.com",
+  "password": "$2b$10$3Epvv1Xc0xsbAyUkpuwEPerQ.OoFW6iygKyf7YigMOBiBY4IJNtoe",
+  "role": "instructor",
+  "profile": {
+    "firstName": "Azouz",
+    "lastName": "Tarek",
+    "phone": "+21628642656",
+    "dateOfBirth": {
+      "$date": "2002-05-21T00:00:00.000Z"
+    },
+    "avatar": "http://localhost:8002/media/users/default-avatar.jpg"
+  },
+  "address": {
+    "street": "Tozeur",
+    "city": "tozeur",
+    "state": "tozeur",
+    "country": "TN",
+    "zipCode": "2200"
+  },
+  "isActive": true,
+  "isVerified": true,
+  "createdAt": {
+    "$date": "2026-02-09T14:10:23.665Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-02T21:11:19.877Z"
+  },
+  "lastLogin": {
+    "$date": "2026-03-02T21:11:19.874Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69a1beeedebaf10eba2ce1c3"
+  },
+  "email": "elhajrilouay@gmail.com",
+  "password": "$2b$10$HrLArUuH2A/.b/jbqXdl0Ow.eI8DHper8.O46GylKRj1odyHNUpXW",
+  "role": "student",
+  "profile": {
+    "firstName": "azouz",
+    "lastName": "tarek",
+    "phone": "+21628642656",
+    "dateOfBirth": {
+      "$date": "2002-05-21T00:00:00.000Z"
+    },
+    "avatar": "http://localhost:8002/media/users/default-avatar.jpg"
+  },
+  "address": {
+    "street": "17 تقاسيم الرحمة محمدية بن عروس",
+    "city": "محمدية",
+    "state": "tunis",
+    "country": "TN",
+    "zipCode": "1145"
+  },
+  "isActive": true,
+  "isVerified": true,
+  "createdAt": {
+    "$date": "2026-02-27T15:57:34.944Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-27T15:57:44.961Z"
+  }
+}]

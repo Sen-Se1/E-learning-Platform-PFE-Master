@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "6994a0ffb5d8ebde42981f74"
+  },
+  "title": "Module 1: Getting Started",
+  "description": "Introduction to the course environment and prerequisites.",
+  "courseId": {
+    "$oid": "6994a0f4b5d8ebde42981f71"
+  },
+  "createdAt": {
+    "$date": "2026-02-17T17:10:23.716Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T21:37:24.103Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6994a10eb5d8ebde42981f78"
+  },
+  "title": "Module 2: Core Concepts",
+  "description": "Deep dive into the fundamental concepts.",
+  "courseId": {
+    "$oid": "6994a0f4b5d8ebde42981f71"
+  },
+  "createdAt": {
+    "$date": "2026-02-17T17:10:38.215Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:13:06.996Z"
+  },
+  "__v": 0
+}]

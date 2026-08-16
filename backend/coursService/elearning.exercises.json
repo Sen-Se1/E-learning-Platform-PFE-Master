@@ -1,0 +1,138 @@
+[{
+  "_id": {
+    "$oid": "6994a175b5d8ebde42981f8b"
+  },
+  "type": "coding",
+  "title": "Implement Filter Function",
+  "instructions": "Write a function that filters an array based on a condition.",
+  "maxScore": 50,
+  "language": "javascript",
+  "initialCode": "function filterArray(arr) {\n  // Your code here\n}",
+  "solution": "function filterArray(arr) { return arr.filter(Boolean); }",
+  "assertions": "expect(filterArray([1, 0, 2])).toEqual([1, 2]);",
+  "lessonId": {
+    "$oid": "69a6180146e61d8abf3db02f"
+  },
+  "options": [],
+  "createdAt": {
+    "$date": "2026-02-17T17:12:21.280Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T21:37:24.137Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a634a8880c4f0c27fb6045"
+  },
+  "type": "quiz",
+  "title": "Knowledge Check 1",
+  "instructions": "Answer the following question based on the video.",
+  "maxScore": 100,
+  "timeLimit": 10,
+  "options": [
+    {
+      "id": "1",
+      "text": "Option A",
+      "isCorrect": true,
+      "_id": {
+        "$oid": "69a634a8880c4f0c27fb6046"
+      }
+    },
+    {
+      "id": "2",
+      "text": "Option B",
+      "isCorrect": false,
+      "_id": {
+        "$oid": "69a634a8880c4f0c27fb6047"
+      }
+    },
+    {
+      "id": "3",
+      "text": "Option C",
+      "isCorrect": false,
+      "_id": {
+        "$oid": "69a634a8880c4f0c27fb6048"
+      }
+    }
+  ],
+  "lessonId": {
+    "$oid": "69a633b3880c4f0c27fb603a"
+  },
+  "createdAt": {
+    "$date": "2026-03-03T01:08:56.154Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:08:56.154Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a63bb3880c4f0c27fb6070"
+  },
+  "type": "boolean",
+  "title": "Middleware JSON obligatoire pour Express.js",
+  "instructions": "Indiquez si la phrase suivante est vraie ou fausse : 'Il est nécessaire d'utiliser express.json() pour pouvoir lire le corps des requêtes JSON dans Express.js.'.",
+  "maxScore": 5,
+  "timeLimit": 2,
+  "correctAnswer": true,
+  "lessonId": {
+    "$oid": "69a635a2880c4f0c27fb606c"
+  },
+  "options": [],
+  "createdAt": {
+    "$date": "2026-03-03T01:38:59.443Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:38:59.443Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a64409142d41643a8da2bd"
+  },
+  "type": "coding",
+  "title": "Implement Filter Function",
+  "instructions": "Write a function that filters an array based on a condition.",
+  "maxScore": 50,
+  "language": "javascript",
+  "initialCode": "function filterArray(arr) {\n  // Your code here\n}",
+  "solution": "function filterArray(arr) { return arr.filter(Boolean); }",
+  "assertions": "expect(filterArray([1, 0, 2])).toEqual([1, 2]);",
+  "lessonId": {
+    "$oid": "69a635a2880c4f0c27fb606c"
+  },
+  "options": [],
+  "createdAt": {
+    "$date": "2026-02-17T17:12:21.280Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T21:37:24.137Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a646ce142d41643a8da2c0"
+  },
+  "type": "boolean",
+  "title": "Middleware JSON obligatoire pour Express.js",
+  "instructions": "Indiquez si la phrase suivante est vraie ou fausse : 'Il est nécessaire d'utiliser express.json() pour pouvoir lire le corps des requêtes JSON dans Express.js.'.",
+  "maxScore": 5,
+  "timeLimit": 2,
+  "correctAnswer": true,
+  "lessonId": {
+    "$oid": "69a635a2880c4f0c27fb606c"
+  },
+  "options": [],
+  "createdAt": {
+    "$date": "2026-03-03T01:38:59.443Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:38:59.443Z"
+  },
+  "__v": 0
+}]

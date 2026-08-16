@@ -1,0 +1,111 @@
+[{
+  "_id": {
+    "$oid": "6994a130b5d8ebde42981f7c"
+  },
+  "title": "1.1 Welcome to the Courseeee",
+  "type": "video",
+  "duration": "05:00",
+  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "videoSource": "url",
+  "moduleId": {
+    "$oid": "6994a0ffb5d8ebde42981f74"
+  },
+  "createdAt": {
+    "$date": "2026-02-17T17:11:12.095Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T21:37:24.066Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6994a141b5d8ebde42981f80"
+  },
+  "title": "2.1 Advanced Functionsss",
+  "type": "code",
+  "duration": "15:00",
+  "content": "Let's explore higher-order functions in JavaScript.",
+  "moduleId": {
+    "$oid": "6994a10eb5d8ebde42981f78"
+  },
+  "createdAt": {
+    "$date": "2026-02-17T17:11:29.944Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:08:25.863Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a6180146e61d8abf3db02f"
+  },
+  "title": "2.1 Advanced Functions",
+  "type": "video",
+  "duration": "15:00",
+  "content": "Dans cette leçon, nous allons découvrir pourquoi Node.js est devenu un choix populaire pour le développement backend. Nous commencerons par comprendre son architecture basée sur le moteur V8 de Chrome, puis nous analyserons le concept de programmation non bloquante. Nous mettrons en pratique la création d’un serveur HTTP simple, la gestion des routes et l’utilisation des modules natifs. Enfin, nous discuterons des cas d’usage réels comme les APIs REST, les applications temps réel et les microservices.",
+  "videoSource": "upload",
+  "videoFile": "1772492800596.mp4",
+  "pdfFile": "1772492801894.pdf",
+  "noteContent": " `\n# 🟢 Introduction à Node.js\n\n## 1️⃣ Qu’est-ce que Node.js ?\nNode.js est un environnement d’exécution JavaScript côté serveur. Il permet d’exécuter du JavaScript en dehors du navigateur grâce au moteur V8 développé par Google.\n\n## 2️⃣ Architecture et fonctionnement\nNode.js fonctionne avec un modèle non bloquant basé sur un Event Loop.  \nCela signifie que :\n- Les opérations longues (lecture fichier, requête base de données, API externe) ne bloquent pas l’exécution du programme.\n- Node.js peut gérer plusieurs requêtes simultanément avec un seul thread.\n\n## 3️⃣ Exemple simple de serveur HTTP\n\nconst http = require('http');\n\nconst server = http.createServer((req, res) => {\n  res.write('Hello World');\n  res.end();\n});\n\nserver.listen(3000);\n\nCe serveur écoute sur le port 3000 et renvoie \"Hello World\".\n\n## 4️⃣ Avantages de Node.js\n✔️ Haute performance  \n✔️ Idéal pour les applications temps réel (chat, streaming)  \n✔️ Même langage frontend et backend  \n✔️ Large écosystème (npm)\n\n## 5️⃣ Cas d’utilisation\n- APIs REST\n- Applications temps réel (WebSocket)\n- Microservices\n- Applications SaaS\n\n## 🎯 Conclusion\nNode.js est particulièrement adapté aux applications modernes nécessitant rapidité, scalabilité et performance.\n  `,",
+  "description": "Cette leçon propose une introduction approfondie à Node.js. Nous verrons son architecture interne, le fonctionnement de l’Event Loop, la gestion asynchrone ainsi que les avantages de son utilisation pour le développement backend moderne.",
+  "moduleId": {
+    "$oid": "6994a10eb5d8ebde42981f78"
+  },
+  "createdAt": {
+    "$date": "2026-03-02T23:06:41.933Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-02T23:06:41.933Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a633b3880c4f0c27fb603a"
+  },
+  "title": "Comprendre l’Event Loop en profondeur",
+  "type": "video",
+  "duration": "15:00",
+  "content": "Dans cette leçon, nous allons explorer le cœur du fonctionnement de Node.js : l’Event Loop. Vous apprendrez comment Node.js gère les opérations asynchrones sans bloquer le thread principal. Nous verrons la différence entre code synchrone et asynchrone, puis nous étudierons les callbacks, les Promises et async/await. Enfin, nous analyserons l’ordre d’exécution du code à travers plusieurs exemples pratiques.",
+  "videoSource": "upload",
+  "videoFile": "1772499890372.mp4",
+  "pdfFile": "1772499891604.pdf",
+  "noteContent": "`\n# 🔄 Comprendre l’Event Loop\n\n## 1️⃣ Le problème du code bloquant\n\nEn programmation synchrone, chaque instruction attend la fin de la précédente.\nExemple :\n\nconst fs = require('fs');\nconst data = fs.readFileSync('file.txt');\nconsole.log(data);\n\nIci, le programme est bloqué tant que le fichier n'est pas lu.\n\n---\n\n## 2️⃣ Solution : programmation asynchrone\n\nNode.js utilise un modèle non bloquant :\n\nfs.readFile('file.txt', (err, data) => {\n  console.log(data);\n});\n\nPendant la lecture du fichier, le programme peut continuer à exécuter d’autres tâches.\n\n---\n\n## 3️⃣ L’Event Loop expliqué simplement\n\nL’Event Loop est un mécanisme qui :\n- Surveille la file d’attente des événements\n- Exécute les callbacks quand les opérations sont terminées\n- Permet de gérer plusieurs requêtes avec un seul thread\n\n---\n\n## 4️⃣ Promises\n\nLes Promises rendent le code plus lisible :\n\nfetchData()\n  .then(data => console.log(data))\n  .catch(err => console.error(err));\n\n---\n\n## 5️⃣ Async / Await\n\nSyntaxe moderne :\n\nasync function getData() {\n  try {\n    const data = await fetchData();\n    console.log(data);\n  } catch (error) {\n    console.error(error);\n  }\n}\n\n---\n\n## 🎯 Points clés à retenir\n\n✔️ Node.js est single-thread mais non bloquant  \n✔️ L’Event Loop gère les tâches asynchrones  \n✔️ Les Promises et async/await simplifient le code  \n✔️ Idéal pour APIs et applications temps réel  \n\n---\n\n## 📝 Exercice pratique\n\nCréez un script Node.js qui :\n1. Lit un fichier texte de manière asynchrone\n2. Affiche son contenu\n3. Gère correctement les erreurs\n  `,",
+  "description": "Cette leçon explique en détail le fonctionnement de l’Event Loop dans Node.js. Nous analyserons le modèle non bloquant, les callbacks, les Promises, async/await et la gestion des opérations asynchrones.",
+  "moduleId": {
+    "$oid": "6994a10eb5d8ebde42981f78"
+  },
+  "createdAt": {
+    "$date": "2026-03-03T01:04:51.628Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:08:56.156Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a635a2880c4f0c27fb606c"
+  },
+  "title": "Création d’une API REST avec Express.js",
+  "type": "video",
+  "duration": "15:00",
+  "content": "Cette leçon vous guide pas à pas dans la création d’une API REST. Nous commencerons par installer et configurer Express.js, puis nous définirons les routes GET, POST, PUT et DELETE. Vous apprendrez à utiliser les middlewares pour la gestion des erreurs et de la validation, à structurer votre projet en modules et à connecter votre API à une base de données (MongoDB). Enfin, nous testerons l’API avec Postman et nous verrons comment sécuriser certaines routes avec JWT.",
+  "videoSource": "upload",
+  "videoFile": "1772500385737.mp4",
+  "pdfFile": "1772500386971.pdf",
+  "noteContent": "`\n# 🟢 API REST avec Express.js\n\n## 1️⃣ Installation et configuration\nInstaller Express :\n\\`\\`\\`bash\nnpm install express\n\\`\\`\\`\n\nCréer le fichier principal :\n\\`\\`\\`js\nconst express = require('express');\nconst app = express();\napp.use(express.json());\n\napp.listen(3000, () => console.log('Server running on port 3000'));\n\\`\\`\\`\n\n---\n\n## 2️⃣ Définition des routes\nExemple d’API simple pour gérer des utilisateurs :\n\n\\`\\`\\`js\nconst users = [];\n\napp.get('/users', (req, res) => {\n  res.json(users);\n});\n\napp.post('/users', (req, res) => {\n  const user = req.body;\n  users.push(user);\n  res.status(201).json(user);\n});\n\\`\\`\\`\n\n---\n\n## 3️⃣ Middlewares\n- `express.json()` → Parse le corps des requêtes JSON  \n- Middleware de validation : vérifier les champs requis  \n- Middleware de gestion d’erreurs\n\n---\n\n## 4️⃣ Connexion à MongoDB\n\\`\\`\\`js\nconst mongoose = require('mongoose');\nmongoose.connect('mongodb://localhost:27017/mydb')\n  .then(() => console.log('MongoDB connected'))\n  .catch(err => console.error(err));\n\\`\\`\\`\n\n---\n\n## 5️⃣ Sécurisation avec JWT\n- Protéger certaines routes avec authentification  \n- Vérifier le token envoyé dans les headers\n\n---\n\n## 🎯 Points clés\n✔️ Express.js simplifie la création d’API  \n✔️ Routes, middlewares et gestion d’erreurs sont essentiels  \n✔️ Connexion à MongoDB pour la persistance des données  \n✔️ JWT pour sécuriser les endpoints  \n\n---\n\n## 📝 Exercice pratique\nCréer une API REST pour gérer des produits avec :\n1. Routes GET, POST, PUT, DELETE\n2. Validation des données\n3. Réponse JSON standardisée\n4. Test avec Postman\n  `,",
+  "description": "Dans cette leçon, nous allons apprendre à créer une API REST complète avec Node.js et Express.js. Vous découvrirez les routes, les middlewares, la gestion des requêtes HTTP, ainsi que les bonnes pratiques pour structurer votre projet.",
+  "moduleId": {
+    "$oid": "6994a10eb5d8ebde42981f78"
+  },
+  "createdAt": {
+    "$date": "2026-03-03T01:13:06.992Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-03T01:38:59.445Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,209 @@
+const mongoose = require('mongoose');
+const path = require('path');
+const asyncHandler = require('express-async-handler');
+const ApiError = require('../utils/apiError');
+const Course = require('../models/courseModel');
+const Module = require('../models/moduleSchema');
+const Lesson = require('../models/lessonSchema');
+const Exercise = require('../models/exerciseSchema');
+const { uploadToS3 } = require('../utils/s3Service');
+const axios = require('axios');
+
+/**
+ * @desc    Upload Course Image
+ * @route   POST /api/v1/courses/upload-image
+ * @access  Private
+ */
+exports.uploadCourseImage = asyncHandler(async (req, res, next) => {
+  if (!req.files || !req.files.imageCover) {
+    return next(new ApiError('Please upload an image', 400));
+  }
+  res.status(200).json({ filename: req.files.imageCover[0].filename });
+});
+
+
+
+/**
+ * @desc    Get list of courses
+ * @route   GET /api/v1/courses
+ * @access  Public
+ */
+exports.getCourses = asyncHandler(async (req, res) => {
+  const page = req.query.page * 1 || 1;
+  const limit = req.query.limit * 1 || 10;
+  const skip = (page - 1) * limit;
+
+  // 1. Get total count of documents
+  const totalDocuments = await Course.countDocuments();
+
+  // 2. Fetch paginated data
+  const courses = await Course.find({}).skip(skip).limit(limit);
+
+  // 3. Calculate pagination metadata
+  const totalPages = Math.ceil(totalDocuments / limit);
+
+  res.status(200).json({
+    results: courses.length,
+    pagination: {
+      currentPage: page,
+      limit: limit,
+      totalDocuments: totalDocuments,
+      totalPages: totalPages,
+    },
+    data: courses
+  });
+});
+
+/**
+ * @desc    Get specific course by id or slug with deep population
+ * @route   GET /api/v1/courses/:id
+ * @access  Public
+ */
+exports.getCourse = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const isMongoId = mongoose.Types.ObjectId.isValid(id);
+  
+  // 1. Fetch Course
+  const course = await Course.findOne({
+    $or: [
+      ...(isMongoId ? [{ _id: id }] : []),
+      { slug: id }
+    ]
+  }).lean();
+
+  if (!course) {
+    return next(new ApiError(`No course for this id or slug: ${id}`, 404));
+  }
+
+  // 2. Fetch Modules for this Course
+  const modules = await Module.find({ courseId: course._id }).lean();
+
+  // 3. For each Module, Fetch Lessons
+  const modulesWithLessons = await Promise.all(modules.map(async (mod) => {
+    const lessons = await Lesson.find({ moduleId: mod._id }).lean();
+    
+    // 4. For each Lesson, Fetch Exercises
+    const lessonsWithExercises = await Promise.all(lessons.map(async (less) => {
+      const exercises = await Exercise.find({ lessonId: less._id }).lean();
+      return { ...less, exercises: exercises };
+    }));
+
+    return { ...mod, lessons: lessonsWithExercises };
+  }));
+
+  // Assemble final object
+  course.modules = modulesWithLessons;
+
+  res.status(200).json({ data: course });
+});
+
+/**
+ * @desc    Create course (Supports nested data)
+ * @route   POST /api/v1/courses
+ * @access  Private (Instructor/Admin)
+ */
+exports.cours = asyncHandler(async (req, res) => {
+  if (req.files && req.files.imageCover) {
+    req.body.imageCover = req.files.imageCover[0].filename;
+
+    // Logic hybride : Upload vers S3/LocalStack
+    const imagePath = path.join(process.cwd(), 'uploads', 'images', req.files.imageCover[0].filename);
+    await uploadToS3(imagePath, 'images');
+  }
+
+  const newCourse = await Course.create(req.body);
+  res.status(201).json({ data: newCourse });
+});
+
+/**
+ * @desc    Update specific course
+ * @route   PUT /api/v1/courses/:id
+ * @access  Private (Instructor/Admin)
+ */
+exports.update = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  if (req.files && req.files.imageCover) {
+    req.body.imageCover = req.files.imageCover[0].filename;
+
+    // Logic hybride : Upload vers S3/LocalStack
+    const imagePath = path.join(process.cwd(), 'uploads', 'images', req.files.imageCover[0].filename);
+    await uploadToS3(imagePath, 'images');
+  }
+
+  const course = await Course.findByIdAndUpdate(id, req.body, { new: true });
+  if (!course) {
+    return next(new ApiError(`No course for this id ${id}`, 404));
+  }
+
+  // Send notifications to enrolled students about course update
+  const inscriptionsRes = await axios.get(
+    `${process.env.INSCRIPTION_SERVICE_URL}/inscriptions/course-students/${course._id}`,
+    {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    }
+  );
+
+
+
+  const inscriptions = inscriptionsRes.data.data || inscriptionsRes.data;
+
+  await Promise.all(
+    inscriptions.map(inscription =>
+      axios.post(process.env.NOTIFICATION_SERVICE_URL, {
+        recipientType: "USER",
+        recipientId: inscription.userId,
+        title: "Course updated",
+        message: `Your course "${course.title}" has new updates`,
+        type: "COURSE_UPDATE",
+        priority: "MEDIUM",
+        metadata: {
+          courseId: course._id,
+          teacherId: course.teacherId
+        }
+      })
+    )
+  );
+
+  res.status(200).json({ data: course });
+});
+
+/**
+ * @desc    Delete specific course and its children (Cascading Delete)
+ * @route   DELETE /api/v1/courses/:id
+ * @access  Private (Instructor/Admin)
+ */
+exports.deleteCourse = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const course = await Course.findById(id);
+
+  if (!course) {
+    return next(new ApiError(`No course for this id ${id}`, 404));
+  }
+
+  // --- Cascading Cleanup ---
+  const modules = await Module.find({ courseId: course._id });
+  
+  for (const mod of modules) {
+    const lessons = await Lesson.find({ moduleId: mod._id });
+    
+    for (const less of lessons) {
+      // Delete exercises of lesson
+      await Exercise.deleteMany({ lessonId: less._id });
+      // Delete lesson
+      await Lesson.findByIdAndDelete(less._id);
+    }
+    
+    // Also delete any exercises directly linked to the module
+    await Exercise.deleteMany({ moduleId: mod._id });
+    
+    // Delete module
+    await Module.findByIdAndDelete(mod._id);
+  }
+
+  await Course.findByIdAndDelete(id);
+  res.status(204).send();
+});
+

@@ -1,0 +1,543 @@
+[{
+  "_id": {
+    "$oid": "698b45eb3920d45003d7ef18"
+  },
+  "title": "Implementing DevSecOps Pipelines",
+  "subtitle": "Integrate security into your CI/CD pipelines",
+  "description": "Learn to integrate SAST, DAST, and compliance checks into your Jenkins and GitLab CI flows.",
+  "instructor": "Alex Rivera",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "duration": "8.5 hrs",
+  "rating": 4.2,
+  "reviews": "850",
+  "level": "Intermediate",
+  "tags": [
+    "Security",
+    "Specialty"
+  ],
+  "price": 79.99,
+  "originalPrice": 129.99,
+  "discount": 38,
+  "students": 3200,
+  "lastUpdated": "04/2024",
+  "imageCover": "devsecops-pipelines.jpg",
+  "category": "Security",
+  "modules": [],
+  "prerequisites": [],
+  "features": [],
+  "instructorDetails": {
+    "id": "alex-rivera",
+    "name": "Alex Rivera",
+    "title": "Security Engineer",
+    "company": "SecureDevOps",
+    "bio": "Security specialist...",
+    "avatar": "alex-avatar.jpg",
+    "courses": 5,
+    "students": 25000,
+    "rating": 4.7,
+    "socialLinks": []
+  },
+  "createdAt": {
+    "$date": "2026-02-10T14:51:23.750Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:51:23.750Z"
+  },
+  "slug": "implementing-devsecops-pipelines",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698b45eb3920d45003d7ef1b"
+  },
+  "title": "Docker Masterclass for Developers",
+  "subtitle": "Master Docker from development to production",
+  "description": "Containerize your applications and master the Docker ecosystem from development to swarm.",
+  "instructor": "David Miller",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "duration": "18 hrs",
+  "rating": 4.7,
+  "reviews": "3.1k",
+  "level": "Intermediate",
+  "tags": [
+    "Docker",
+    "Intermediate"
+  ],
+  "price": 79.99,
+  "originalPrice": 129.99,
+  "discount": 38,
+  "students": 28000,
+  "lastUpdated": "04/2024",
+  "imageCover": "docker-masterclass.jpg",
+  "category": "Containers",
+  "modules": [],
+  "prerequisites": [],
+  "features": [],
+  "instructorDetails": {
+    "id": "david-miller",
+    "name": "David Miller",
+    "title": "DevOps Consultant",
+    "company": "ContainerLabs",
+    "bio": "Docker expert...",
+    "avatar": "david-avatar.jpg",
+    "courses": 12,
+    "students": 180000,
+    "rating": 4.8,
+    "socialLinks": []
+  },
+  "createdAt": {
+    "$date": "2026-02-10T14:51:23.751Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:51:23.751Z"
+  },
+  "slug": "docker-masterclass-for-developers",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698b45eb3920d45003d7eefd"
+  },
+  "title": "Advanced AWS Infrastructure with Terraform",
+  "subtitle": "Master the art of provisioning enterprise-grade infrastructure",
+  "description": "Master automated provisioning of complex cloud architectures using HCL and AWS services.",
+  "instructor": "Dr. Sarah Jenkins",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "duration": "12.5 hrs",
+  "rating": 4.8,
+  "reviews": "2.4k",
+  "level": "Intermediate",
+  "tags": [
+    "AWS",
+    "Intermediate"
+  ],
+  "price": 94.99,
+  "originalPrice": 149.99,
+  "discount": 35,
+  "students": 12840,
+  "lastUpdated": "05/2024",
+  "imageCover": "aws-terraform.jpg",
+  "category": "Cloud Computing",
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Introduction to IaC",
+      "lessons": [
+        {
+          "id": "lesson-1-1",
+          "title": "What is Terraform?",
+          "type": "video",
+          "duration": "12:45",
+          "isPreview": true,
+          "_id": {
+            "$oid": "698b45eb3920d45003d7eeff"
+          }
+        },
+        {
+          "id": "lesson-1-2",
+          "title": "Installing the CLI & Setup",
+          "type": "video",
+          "duration": "08:30",
+          "_id": {
+            "$oid": "698b45eb3920d45003d7ef00"
+          }
+        },
+        {
+          "id": "lesson-1-3",
+          "title": "Core Concepts Quiz",
+          "type": "quiz",
+          "questions": 5,
+          "_id": {
+            "$oid": "698b45eb3920d45003d7ef01"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "698b45eb3920d45003d7eefe"
+      }
+    },
+    {
+      "id": "module-2",
+      "title": "Terraform State Deep Dive",
+      "lessons": [
+        {
+          "id": "lesson-2-1",
+          "title": "State Management",
+          "type": "video",
+          "duration": "15:20",
+          "_id": {
+            "$oid": "698b45eb3920d45003d7ef03"
+          }
+        },
+        {
+          "id": "lesson-2-2",
+          "title": "Remote State",
+          "type": "video",
+          "duration": "18:45",
+          "_id": {
+            "$oid": "698b45eb3920d45003d7ef04"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef02"
+      }
+    }
+  ],
+  "prerequisites": [
+    {
+      "icon": "terminal",
+      "title": "CLI Experience",
+      "description": "Comfortable with Bash or Zsh",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef05"
+      }
+    },
+    {
+      "icon": "cloud",
+      "title": "AWS Basics",
+      "description": "EC2, VPC, and S3 understanding",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef06"
+      }
+    },
+    {
+      "icon": "code",
+      "title": "Git Fundamentals",
+      "description": "Branching and pull requests",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef07"
+      }
+    }
+  ],
+  "features": [
+    {
+      "icon": "ondemand_video",
+      "title": "24 hours",
+      "description": "on-demand video",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef08"
+      }
+    },
+    {
+      "icon": "terminal",
+      "title": "12 Guided",
+      "description": "hands-on labs",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef09"
+      }
+    },
+    {
+      "icon": "file_download",
+      "title": "45 Downloadable",
+      "description": "resources",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef0a"
+      }
+    },
+    {
+      "icon": "workspace_premium",
+      "title": "Certificate",
+      "description": "of completion",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef0b"
+      }
+    }
+  ],
+  "instructorDetails": {
+    "id": "sarah-jenkins",
+    "name": "Dr. Sarah Jenkins",
+    "title": "Senior Cloud Architect",
+    "company": "TechForge",
+    "bio": "Marcus is a certified AWS Solutions Architect Professional with over 12 years of experience in automating large-scale cloud deployments.",
+    "avatar": "sarah-avatar.jpg",
+    "courses": 15,
+    "students": 145000,
+    "rating": 4.8,
+    "socialLinks": [
+      {
+        "platform": "linkedin",
+        "url": "#",
+        "_id": {
+          "$oid": "698b45eb3920d45003d7ef0c"
+        }
+      },
+      {
+        "platform": "github",
+        "url": "#",
+        "_id": {
+          "$oid": "698b45eb3920d45003d7ef0d"
+        }
+      }
+    ]
+  },
+  "createdAt": {
+    "$date": "2026-02-10T14:51:23.756Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:51:23.756Z"
+  },
+  "slug": "advanced-aws-infrastructure-with-terraform",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698b45eb3920d45003d7ef0e"
+  },
+  "title": "Kubernetes Production Operations",
+  "subtitle": "Deep dive into cluster management and zero-downtime deployments",
+  "description": "Deep dive into cluster management, autoscaling, and zero-downtime deployments at scale.",
+  "instructor": "Mark Thompson",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "duration": "22 hrs",
+  "rating": 5,
+  "reviews": "1.1k",
+  "level": "Advanced",
+  "tags": [
+    "K8s",
+    "Advanced"
+  ],
+  "price": 119.99,
+  "originalPrice": 179.99,
+  "discount": 33,
+  "students": 8500,
+  "lastUpdated": "06/2024",
+  "imageCover": "kubernetes-mastery.jpg",
+  "category": "DevOps",
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Kubernetes Fundamentals",
+      "lessons": [
+        {
+          "id": "lesson-1-1",
+          "title": "Cluster Architecture",
+          "type": "video",
+          "duration": "18:30",
+          "_id": {
+            "$oid": "698b45eb3920d45003d7ef10"
+          }
+        },
+        {
+          "id": "lesson-1-2",
+          "title": "Pods and Deployments",
+          "type": "video",
+          "duration": "22:15",
+          "_id": {
+            "$oid": "698b45eb3920d45003d7ef11"
+          }
+        }
+      ],
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef0f"
+      }
+    }
+  ],
+  "prerequisites": [
+    {
+      "icon": "terminal",
+      "title": "Linux CLI",
+      "description": "Comfortable with Linux commands",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef12"
+      }
+    },
+    {
+      "icon": "cloud",
+      "title": "Docker Basics",
+      "description": "Understanding of containers",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef13"
+      }
+    }
+  ],
+  "features": [
+    {
+      "icon": "ondemand_video",
+      "title": "22 hours",
+      "description": "on-demand video",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef14"
+      }
+    },
+    {
+      "icon": "terminal",
+      "title": "15 Guided",
+      "description": "hands-on labs",
+      "_id": {
+        "$oid": "698b45eb3920d45003d7ef15"
+      }
+    }
+  ],
+  "instructorDetails": {
+    "id": "mark-thompson",
+    "name": "Mark Thompson",
+    "title": "Principal DevOps Engineer",
+    "company": "CloudScale Inc",
+    "bio": "Mark has managed Kubernetes clusters at scale for Fortune 500 companies...",
+    "avatar": "mark-avatar.jpg",
+    "courses": 8,
+    "students": 95000,
+    "rating": 4.9,
+    "socialLinks": [
+      {
+        "platform": "linkedin",
+        "url": "#",
+        "_id": {
+          "$oid": "698b45eb3920d45003d7ef16"
+        }
+      },
+      {
+        "platform": "github",
+        "url": "#",
+        "_id": {
+          "$oid": "698b45eb3920d45003d7ef17"
+        }
+      }
+    ]
+  },
+  "createdAt": {
+    "$date": "2026-02-10T14:51:23.756Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:51:23.756Z"
+  },
+  "slug": "kubernetes-production-operations",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698b45eb3920d45003d7ef19"
+  },
+  "title": "Linux Fundamentals for DevOps",
+  "subtitle": "Master essential Linux skills for DevOps",
+  "description": "The essential command line skills required for every cloud engineer and developer.",
+  "instructor": "Sam Oh",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "duration": "15 hrs",
+  "rating": 4.6,
+  "reviews": "5.2k",
+  "level": "Beginner",
+  "tags": [
+    "Linux",
+    "Beginner"
+  ],
+  "price": 59.99,
+  "originalPrice": 89.99,
+  "discount": 33,
+  "students": 25000,
+  "lastUpdated": "03/2024",
+  "imageCover": "linux-fundamentals.jpg",
+  "category": "Linux",
+  "modules": [],
+  "prerequisites": [],
+  "features": [],
+  "instructorDetails": {
+    "id": "sam-oh",
+    "name": "Sam Oh",
+    "title": "Linux Instructor",
+    "company": "DevOps Academy",
+    "bio": "Linux expert...",
+    "avatar": "sam-avatar.jpg",
+    "courses": 10,
+    "students": 180000,
+    "rating": 4.8,
+    "socialLinks": []
+  },
+  "createdAt": {
+    "$date": "2026-02-10T14:51:23.751Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:51:23.751Z"
+  },
+  "slug": "linux-fundamentals-for-devops",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "698b45eb3920d45003d7ef1a"
+  },
+  "title": "Serverless Apps on Google Cloud",
+  "subtitle": "Build scalable serverless applications on GCP",
+  "description": "Building highly scalable, event-driven applications using Cloud Functions and Cloud Run.",
+  "instructor": "Lisa Wong",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "duration": "10 hrs",
+  "rating": 4.9,
+  "reviews": "430",
+  "level": "Advanced",
+  "tags": [
+    "GCP",
+    "Advanced"
+  ],
+  "price": 89.99,
+  "originalPrice": 139.99,
+  "discount": 36,
+  "students": 2100,
+  "lastUpdated": "05/2024",
+  "imageCover": "serverless-gcp.jpg",
+  "category": "GCP",
+  "modules": [],
+  "prerequisites": [],
+  "features": [],
+  "instructorDetails": {
+    "id": "lisa-wong",
+    "name": "Lisa Wong",
+    "title": "Cloud Architect",
+    "company": "Google Cloud",
+    "bio": "GCP specialist...",
+    "avatar": "lisa-avatar.jpg",
+    "courses": 7,
+    "students": 45000,
+    "rating": 4.9,
+    "socialLinks": []
+  },
+  "createdAt": {
+    "$date": "2026-02-10T14:51:23.751Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-10T14:51:23.751Z"
+  },
+  "slug": "serverless-apps-on-google-cloud",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6994a0f4b5d8ebde42981f71"
+  },
+  "title": "Advanced Web Development Masterclass",
+  "description": "A complete guide to modern web development including React, Node.js, and MongoDB. Learn by building real-world projects.",
+  "instructorId": {
+    "$oid": "6989eacf9f47b32a74d9bcb3"
+  },
+  "rating": 0,
+  "reviews": "0",
+  "level": "Intermediate",
+  "tags": [],
+  "price": 49.99,
+  "studentsId": [],
+  "imageCover": "1771355573512.png",
+  "category": "Development",
+  "lastUpdated": "17/02/2026",
+  "createdAt": {
+    "$date": "2026-02-17T17:10:12.600Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T21:37:23.802Z"
+  },
+  "slug": "advanced-web-development-masterclass",
+  "__v": 0,
+  "subtitle": ""
+}]
