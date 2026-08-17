@@ -1,8 +1,9 @@
+const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
 
 /**
- * @desc   Remote Authentication Middleware (calls userService)
+ * @desc   make sure the user is logged in
  */
 exports.protect = asyncHandler(async (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -12,47 +13,60 @@ exports.protect = asyncHandler(async (req, res, next) => {
     token = authHeader.split(" ")[1];
   }
 
-  if (!token) {
-    return next(new ApiError("You are not logged in, please log in to access this route.", 401));
-  }
+  if (!token)
+    return next(
+      new ApiError(
+        "You are not logged in, please log in to access this route.",
+        401
+      )
+    );
 
-  // Bypass for integration tests
-  if (process.env.NODE_ENV === 'test' && token === 'test-token') {
-    req.user = { _id: '65abc1234567890123456789', role: 'admin' };
-    return next();
-  }
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  const currentUser = await User.findById(decoded.userId);
+  if (!currentUser)
+    return next(
+      new ApiError("The user belonging to this token no longer exists.", 401)
+    );
 
-  try {
-    const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8002/api/v1';
-    const response = await fetch(`${userServiceUrl}/auth/verify-token`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+  if (!currentUser.isVerified)
+    return next(
+      new ApiError("Please verify your account to access this route.", 403)
+    );
 
-    const result = await response.json();
+  if (!currentUser.isActive)
+    return next(
+      new ApiError("This account is deactivated. Please contact support.", 403)
+    );
 
-    if (!response.ok) {
-      return next(new ApiError(result.message || "Invalid or expired token", 401));
+  if (currentUser.passwordChangedAt) {
+    const passChangedTimestamp = parseInt(
+      currentUser.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    if (passChangedTimestamp > decoded.iat) {
+      return next(
+        new ApiError(
+          "The user recently changed their password. Please log in again.",
+          401
+        )
+      );
     }
-
-    // Attach user to request
-    req.user = result.data;
-    next();
-  } catch (err) {
-    console.error("Auth remote call failed:", err);
-    return next(new ApiError("Authentication service unavailable", 503));
   }
+
+  req.user = currentUser;
+  next();
 });
 
 /**
  * @desc   Authorization (User Permissions)
+ * ["admin"]
  */
 exports.allowedTo = (...roles) =>
   asyncHandler(async (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(new ApiError("You are not authorized to access this route.", 403));
+      return next(
+        new ApiError("You are not authorized to access this route.", 403)
+      );
     }
     next();
   });
