@@ -27,11 +27,6 @@ exports.createLessonValidator = [
     .isIn(['video', 'code', 'file', 'exercise'])
     .withMessage('Invalid lesson type'),
 
-  check('duration')
-    .optional()
-    .isString()
-    .withMessage('Duration must be a string (e.g., "10:30")'),
-
   check('videoSource')
     .optional()
     .isIn(['url', 'upload'])
@@ -41,13 +36,7 @@ exports.createLessonValidator = [
     .optional()
     .isURL()
     .withMessage('Invalid video URL'),
-
-  check('moduleId')
-    .notEmpty()
-    .withMessage('Module is required')
-    .isMongoId()
-    .withMessage('Invalid Lesson id format'),
-
+  
   valitatorMiddleware,
 ];
 

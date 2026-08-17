@@ -14,11 +14,6 @@ exports.createCourseValidator = [
     .withMessage('Course description is required')
     .isLength({ min: 10 })
     .withMessage('Too short course description'),
-  check('instructorId')
-    .notEmpty()
-    .withMessage('Instructor ID is required')
-    .isMongoId()
-    .withMessage('Invalid instructor id format'),
   check('price')
     .notEmpty()
     .withMessage('Course price is required')
@@ -47,7 +42,25 @@ exports.updateCourseValidator = [
   check('title')
     .optional()
     .isLength({ min: 3 })
-    .withMessage('Too short course title'),
+    .withMessage('Too short course title')
+    .isLength({ max: 100 })
+    .withMessage('Too long course title'),
+  check('description')
+    .optional()
+    .isLength({ min: 10 })
+    .withMessage('Too short course description'),
+  check('price')
+    .optional()
+    .isNumeric()
+    .withMessage('Course price must be a number'),
+  check('category')
+    .optional(),
+  check('level')
+    .optional(),
+  check('imageCover')
+    .optional()
+    .isString()
+    .withMessage('Cover image must be a string'),
   validatorMiddleware,
 ];
 

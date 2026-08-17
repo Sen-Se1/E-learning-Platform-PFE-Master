@@ -5,7 +5,6 @@ const {
   createLesson,
   updateLesson,
   deleteLesson,
-  fetchYoutubeDuration,
 } = require('../controllers/lessonController');
 
 const { uploadMixFiles, parseJsonData } = require('../middleware/uploadMiddleware');
@@ -22,7 +21,6 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/youtube-duration', fetchYoutubeDuration);
 
 router.route('/')
   .get(getLessons)

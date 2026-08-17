@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const { getFileUrl } = require('../utils/s3Service');
 
 const lessonSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { 
+    type: String, required: true 
+  },
   type: {
     type: String,
     default: 'video'

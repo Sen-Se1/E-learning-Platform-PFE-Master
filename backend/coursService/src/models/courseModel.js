@@ -6,7 +6,6 @@ const courseSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       default: null
     },
-   
     title: {
       type: String,
       required: [true, 'Course title is required'],

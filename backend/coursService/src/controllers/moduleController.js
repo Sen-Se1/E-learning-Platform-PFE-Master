@@ -1,10 +1,12 @@
-const asyncHandler = require('express-async-handler');
-const Module = require('../models/moduleSchema');
-const Course = require('../models/courseModel');
-const Lesson = require('../models/lessonSchema');
-const Exercise = require('../models/exerciseSchema');
-const ApiError = require('../utils/apiError');
-const { recalcCourseDurationFromCourse } = require('../utils/courseDurationCalc');
+const asyncHandler = require("express-async-handler");
+const Module = require("../models/moduleSchema");
+const Course = require("../models/courseModel");
+const Lesson = require("../models/lessonSchema");
+const Exercise = require("../models/exerciseSchema");
+const ApiError = require("../utils/apiError");
+const {
+  recalcCourseDurationFromCourse,
+} = require("../utils/courseDurationCalc");
 
 /**
  * @desc    Get all modules
@@ -22,15 +24,11 @@ exports.getModules = asyncHandler(async (req, res) => {
  * @access  Public
  */
 exports.getModule = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const moduleData = await Module.findById(id).populate({
-    path: 'lessonsID',
-    populate: {
-      path: 'exercisesID'
-    }
-  });
+  const moduleData = await Module.findById(req.params.id);
   if (!moduleData) {
-    return next(new ApiError(`No module found for this id ${id}`, 404));
+    return next(
+      new ApiError(`No module found for this id ${req.params.id}`, 404),
+    );
   }
   res.status(200).json({ data: moduleData });
 });
@@ -41,14 +39,11 @@ exports.getModule = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 exports.createModule = asyncHandler(async (req, res) => {
-  const newModule = await Module.create(req.body);
-
-  // If courseId is provided, add module to course
-  if (req.body.courseId) {
-    await Course.findByIdAndUpdate(req.body.courseId, {
-      $push: { chaptersId: newModule._id }
-    });
-  }
+  const newModule = await Module.create({
+    title: req.body.title,
+    description: req.body.description,
+    courseId: req.body.courseId,
+  });
 
   res.status(201).json({ data: newModule });
 });
@@ -59,10 +54,18 @@ exports.createModule = asyncHandler(async (req, res) => {
  * @access  Private
  */
 exports.updateModule = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const moduleData = await Module.findByIdAndUpdate(id, req.body, { new: true });
+  const moduleData = await Module.findByIdAndUpdate(
+    req.params.id,
+    {
+      title: req.body.title,
+      description: req.body.description,
+    },
+    { new: true },
+  );
   if (!moduleData) {
-    return next(new ApiError(`No module found for this id ${id}`, 404));
+    return next(
+      new ApiError(`No module found for this id ${req.params.id}`, 404),
+    );
   }
   res.status(200).json({ data: moduleData });
 });
@@ -73,35 +76,42 @@ exports.updateModule = asyncHandler(async (req, res, next) => {
  * @access  Private (Instructor/Admin)
  */
 exports.deleteModule = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const moduleData = await Module.findById(id);
+  const moduleData = await Module.findById(req.params.id);
 
   if (!moduleData) {
-    return next(new ApiError(`No module found for this id ${id}`, 404));
+    return next(
+      new ApiError(
+        `No module found for this id ${req.params.id}`,
+        404
+      )
+    );
   }
 
-  // 1. Cascading delete children (Lessons & Exercises)
-  const lessons = await Lesson.find({ moduleId: id });
-  for (const less of lessons) {
-    await Exercise.deleteMany({ lessonId: less._id });
-    await Lesson.findByIdAndDelete(less._id);
+  const courseId = moduleData.courseId;
+
+  // Find all lessons belonging to this module
+  const lessons = await Lesson.find({ moduleId: moduleData._id });
+
+  // Delete exercises belonging to those lessons
+  if (lessons.length > 0) {
+    const lessonIds = lessons.map(lesson => lesson._id);
+
+    await Exercise.deleteMany({
+      lessonId: { $in: lessonIds }
+    });
   }
 
-  // 2. Delete exercises directly linked to the module
-  await Exercise.deleteMany({ moduleId: id });
+  // Delete all lessons belonging to the module
+  await Lesson.deleteMany({
+    moduleId: moduleData._id
+  });
 
-  // 2. Remove reference from parent Course
-  await Course.updateOne(
-    { chaptersId: id },
-    { $pull: { chaptersId: id } }
-  );
+  // Delete the module
+  await Module.findByIdAndDelete(moduleData._id);
 
-  // 3. Delete the module itself
-  await Module.findByIdAndDelete(id);
-
-  // 4. Recalculate duration
-  if (moduleData.courseId) {
-    await recalcCourseDurationFromCourse(moduleData.courseId);
+  // Recalculate course duration
+  if (courseId) {
+    await recalcCourseDurationFromCourse(courseId);
   }
 
   res.status(204).send();

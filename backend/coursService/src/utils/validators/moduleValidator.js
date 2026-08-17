@@ -8,7 +8,10 @@ exports.createModuleValidator = [
     .withMessage('Module title is required')
     .isLength({ min: 3 })
     .withMessage('Too short module title'),
-  
+  check('description')
+    .optional()
+    .isLength({ min: 10 })
+    .withMessage('Too short module description'),
   check('courseId')
     .notEmpty()
     .withMessage('Course is required')
@@ -21,10 +24,6 @@ exports.createModuleValidator = [
         }
       })
     ),
-    
-  check('description')
-    .optional(),
-
   validatorMiddleware,
 ];
 
@@ -39,6 +38,10 @@ exports.updateModuleValidator = [
     .optional()
     .isLength({ min: 3 })
     .withMessage('Too short module title'),
+  check('description')
+    .optional()
+    .isLength({ min: 10 })
+    .withMessage('Too short module description'),
   validatorMiddleware,
 ];
 

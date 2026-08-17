@@ -2,7 +2,7 @@ const express = require('express');
 const {
   getCourses,
   getCourse,
-  cours,
+  createCourse,
   update,
   deleteCourse,
   uploadCourseImage,
@@ -28,7 +28,7 @@ router
     uploadMixFiles([{ name: 'imageCover', maxCount: 1 }]),
     parseJsonData,
     createCourseValidator,
-    cours
+    createCourse
   );
 
 router
