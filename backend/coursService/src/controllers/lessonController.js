@@ -19,7 +19,11 @@ const { uploadToS3 } = require("../utils/s3Service");
  */
 exports.getLessons = asyncHandler(async (req, res) => {
   const lessons = await Lesson.find();
-  res.status(200).json({ data: lessons });
+
+  res.status(200).json({
+    results: lessons.length,
+    data: lessons,
+  });
 });
 
 /**
@@ -29,7 +33,9 @@ exports.getLessons = asyncHandler(async (req, res) => {
  */
 exports.getLesson = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const lesson = await Lesson.findById(id).populate("exercisesID");
+
+  const lesson = await Lesson.findById(id);
+
   if (!lesson) {
     return next(new ApiError(`No lesson found for this id ${id}`, 404));
   }
@@ -44,7 +50,7 @@ exports.getLesson = asyncHandler(async (req, res, next) => {
 exports.createLesson = asyncHandler(async (req, res) => {
   const videoFile = req.files?.videoFile?.[0];
   const pdfFile = req.files?.pdfFile?.[0];
-  let duration;
+  let duration = "0:00";
 
   // Calculate duration if we have a video
   if (req.body.videoSource === "url" && req.body.videoUrl) {
@@ -76,45 +82,26 @@ exports.createLesson = asyncHandler(async (req, res) => {
 
   // Logic hybride : Upload vers S3/LocalStack si activé
   if (videoFile) {
-    const videoPath = path.join(
-      process.cwd(),
-      "uploads",
-      "videos",
-      videoFile.filename,
-    );
-
-    await uploadToS3(videoPath, "videos");
+    await uploadToS3(path.resolve(videoFile.path), "videos");
   }
 
   if (pdfFile) {
-    const pdfPath = path.join(
-      process.cwd(),
-      "uploads",
-      "documents",
-      pdfFile.filename,
-    );
-
-    await uploadToS3(pdfPath, "documents");
+    await uploadToS3(path.resolve(pdfFile.path), "documents");
   }
 
   const newLesson = await Lesson.create({
     title: req.body.title,
-    type: req.body.type,
-    duration,
-    content: req.body.content,
+    description: req.body.description,
     videoSource: req.body.videoSource,
-    videoFile: videoFile?.filename,
     videoUrl: req.body.videoUrl,
+    videoFile: videoFile?.filename,
     pdfFile: pdfFile?.filename,
     noteContent: req.body.noteContent,
-    description: req.body.description,
+    duration,
     moduleId: req.body.moduleId,
   });
 
-  // If moduleId is provided, add lesson to module
-  if (req.body.moduleId) {
-    await recalcCourseDurationFromModule(req.body.moduleId);
-  }
+  await recalcCourseDurationFromModule(req.body.moduleId);
 
   res.status(201).json({ data: newLesson });
 });
@@ -126,40 +113,24 @@ exports.createLesson = asyncHandler(async (req, res) => {
  */
 exports.updateLesson = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-
-  if (req.files) {
-    if (req.files.videoFile)
-      req.body.videoFile = req.files.videoFile[0].filename;
-    if (req.files.pdfFile) req.body.pdfFile = req.files.pdfFile[0].filename;
-  }
+  const videoFile = req.files?.videoFile?.[0];
+  const pdfFile = req.files?.pdfFile?.[0];
+  let duration = "0:00";
 
   // Calculate duration if we have a new video
-  if (
-    req.body.videoSource === "url" &&
-    req.body.videoUrl &&
-    !req.body.duration
-  ) {
+  if (req.body.videoSource === "url" && req.body.videoUrl) {
     try {
       if (req.body.videoUrl.includes("vimeo.com")) {
-        req.body.duration = await getVimeoDuration(req.body.videoUrl);
+        duration = await getVimeoDuration(req.body.videoUrl);
       } else {
-        req.body.duration = await getYoutubeDuration(req.body.videoUrl);
+        duration = await getYoutubeDuration(req.body.videoUrl);
       }
     } catch (err) {
       console.error("Failed to get video URL duration:", err.message);
     }
-  } else if (
-    req.body.videoSource === "upload" &&
-    req.body.videoFile &&
-    !req.body.duration
-  ) {
+  } else if (req.body.videoSource === "upload" && req.body.videoFile) {
     try {
-      const videoPath = path.join(
-        process.cwd(),
-        "uploads",
-        "videos",
-        req.body.videoFile,
-      );
+      const videoPath = path.resolve(videoFile.path);
       const durationSec = await getVideoDurationInSeconds(videoPath);
       const h = Math.floor(durationSec / 3600);
       const m = Math.floor((durationSec % 3600) / 60);
@@ -168,7 +139,7 @@ exports.updateLesson = asyncHandler(async (req, res, next) => {
         h > 0
           ? `${h}:${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`
           : `${m}:${s < 10 ? "0" : ""}${s}`;
-      req.body.duration = durationStr;
+      duration = durationStr;
     } catch (err) {
       console.error("Failed to get video file duration:", err.message);
     }
@@ -196,7 +167,22 @@ exports.updateLesson = asyncHandler(async (req, res, next) => {
     }
   }
 
-  const lesson = await Lesson.findByIdAndUpdate(id, req.body, { new: true });
+  const lesson = await Lesson.findByIdAndUpdate(
+    id,
+    {
+      title: req.body.title,
+      description: req.body.description,
+      videoSource: req.body.videoSource,
+      videoUrl: req.body.videoUrl,
+      videoFile: videoFile?.filename,
+      pdfFile: pdfFile?.filename,
+      noteContent: req.body.noteContent,
+      duration,
+      moduleId: req.body.moduleId,
+    },
+    { new: true },
+  );
+
   if (!lesson) {
     return next(new ApiError(`No lesson found for this id ${id}`, 404));
   }

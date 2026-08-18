@@ -10,18 +10,6 @@ const { uploadToS3 } = require("../utils/s3Service");
 const axios = require("axios");
 
 /**
- * @desc    Upload Course Image
- * @route   POST /api/v1/courses/upload-image
- * @access  Private
- */
-exports.uploadCourseImage = asyncHandler(async (req, res, next) => {
-  if (!req.files || !req.files.imageCover) {
-    return next(new ApiError("Please upload an image", 400));
-  }
-  res.status(200).json({ filename: req.files.imageCover[0].filename });
-});
-
-/**
  * @desc    Get list of courses
  * @route   GET /api/v1/courses
  * @access  Public
@@ -117,12 +105,13 @@ exports.createCourse = asyncHandler(async (req, res) => {
 
   const newCourse = await Course.create({
     title: req.body.title,
+    subtitle: req.body.subtitle,
     description: req.body.description,
     instructorId: req.user.userId,
     price: req.body.price,
     category: req.body.category,
     level: req.body.level,
-    imageCover: req.body.imageCover || null,
+    imageCover: req.body.imageCover,
   });
 
   res.status(201).json({ data: newCourse });
@@ -151,11 +140,12 @@ exports.update = asyncHandler(async (req, res, next) => {
     { _id: req.params.id },
     {
       title: req.body.title,
+      subtitle: req.body.subtitle,
       description: req.body.description,
       price: req.body.price,
       category: req.body.category,
       level: req.body.level,
-      imageCover: req.body.imageCover || undefined,
+      imageCover: req.body.imageCover,
     },
     { new: true },
   );

@@ -1,19 +1,33 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const moduleSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
-    required: true 
-  },
-  description: {
-    type: String,
-    minlength: 10
-  },
-  courseId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Course'
-  },
+const moduleSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, "Module title is required"],
+      trim: true,
+      minlength: [3, "Module title must be at least 3 characters"],
+      maxlength: [100, "Module title cannot exceed 100 characters"],
+    },
 
-}, { timestamps: true });
+    description: {
+      type: String,
+      trim: true,
+      minlength: [10, "Module description must be at least 10 characters"],
+      maxlength: [500, "Module description cannot exceed 500 characters"],
+    },
 
-module.exports = mongoose.model('Module', moduleSchema);
+    courseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: [true, "Module course is required"],
+      index: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
+);
+
+module.exports = mongoose.model("Module", moduleSchema);

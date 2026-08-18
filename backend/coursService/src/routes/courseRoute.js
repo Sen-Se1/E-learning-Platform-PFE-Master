@@ -5,7 +5,6 @@ const {
   createCourse,
   update,
   deleteCourse,
-  uploadCourseImage,
 } = require('../controllers/courseController');
 const { uploadMixFiles, parseJsonData } = require('../middleware/uploadMiddleware');
 const { protect } = require('../middleware/authMiddleware');
