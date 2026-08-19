@@ -6,10 +6,9 @@ const ApiError = require("../utils/apiError");
 // @route   POST /api/v1/reviews
 // @access  Private/Protect/User
 exports.createReview = asyncHandler(async (req, res, next) => {
-  // Check if user already reviewed this course
   const existingReview = await Review.findOne({
-    user: req.user._id,
-    course: req.body.course,
+    userId: req.user.userId,
+    courseId: req.body.courseId,
   });
 
   if (existingReview) {
@@ -17,26 +16,45 @@ exports.createReview = asyncHandler(async (req, res, next) => {
   }
 
   const review = await Review.create({
+    userId: req.user.userId,
+    courseId: req.body.courseId,
     ratings: req.body.ratings,
     title: req.body.title,
-    user: req.user._id,
-    course: req.body.course,
   });
 
-  res.status(201).json({ status: "success", data: review });
+  res.status(201).json({
+    status: "success",
+    data: review,
+  });
 });
 
 // @desc    Get all reviews for a course
 // @route   GET /api/v1/reviews/course/:courseId
 // @access  Public
-exports.getCourseReviews = asyncHandler(async (req, res, next) => {
-  const reviews = await Review.find({ course: req.params.courseId });
+exports.getCourseReviews = asyncHandler(async (req, res) => {
+  const reviews = await Review.find({
+    courseId: req.params.courseId,
+  }).sort({
+    createdAt: -1,
+  });
 
   res.status(200).json({
     status: "success",
     results: reviews.length,
     data: reviews,
   });
+});
+
+// @desc    Get logged-in user review for a specific course
+// @route   GET /api/v1/reviews/my-review/:courseId
+// @access  Private/Protect/User
+exports.getUserReviewOnCourse = asyncHandler(async (req, res, next) => {
+  const review = await Review.findOne({
+    userId: req.user.userId,
+    courseId: req.params.courseId,
+  });
+
+  res.status(200).json({ status: "success", data: review });
 });
 
 // @desc    Update review
@@ -50,12 +68,19 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
   }
 
   // Check ownership
-  if (review.user.toString() !== req.user._id.toString()) {
+  const isOwner = review.userId.toString() === req.user.userId.toString();
+
+  if (!isOwner) {
     return next(new ApiError("You are not allowed to update this review", 403));
   }
 
-  review.ratings = req.body.ratings || review.ratings;
-  review.title = req.body.title || review.title;
+  if (req.body.ratings !== undefined) {
+    review.ratings = req.body.ratings;
+  }
+
+  if (req.body.title !== undefined) {
+    review.title = req.body.title;
+  }
   await review.save();
 
   res.status(200).json({ status: "success", data: review });
@@ -72,7 +97,10 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
   }
 
   // Check ownership
-  if (review.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+  const isOwner = review.userId.toString() === req.user.userId.toString();
+  const isAdmin = req.user.role === "admin";
+
+  if (!isOwner && !isAdmin) {
     return next(new ApiError("You are not allowed to delete this review", 403));
   }
 
@@ -81,16 +109,3 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
 
   res.status(204).send();
 });
-
-// @desc    Get logged-in user review for a specific course
-// @route   GET /api/v1/reviews/my-review/:courseId
-// @access  Private/Protect/User
-exports.getUserReviewOnCourse = asyncHandler(async (req, res, next) => {
-  const review = await Review.findOne({
-    user: req.user._id,
-    course: req.params.courseId,
-  });
-
-  res.status(200).json({ status: "success", data: review });
-});
-

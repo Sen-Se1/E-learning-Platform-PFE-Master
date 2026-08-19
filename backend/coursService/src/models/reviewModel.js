@@ -1,73 +1,123 @@
-const mongoose = require('mongoose');
-const Course = require('./courseModel');
+const mongoose = require("mongoose");
+const Course = require("./courseModel");
 
 const reviewSchema = new mongoose.Schema(
   {
     title: {
       type: String,
+      required: [true, "Review title is required"],
+      trim: true,
+      minlength: [3, "Review title must be at least 3 characters"],
+      maxlength: [200, "Review title cannot exceed 200 characters"],
     },
+
     ratings: {
       type: Number,
-      min: [1, 'Min rating value is 1.0'],
-      max: [5, 'Max rating value is 5.0'],
-      required: [true, 'review ratings required'],
+      required: [true, "Review rating is required"],
+      min: [1, "Min rating value is 1"],
+      max: [5, "Max rating value is 5"],
     },
-    user: {
-      type: mongoose.Schema.ObjectId,
-      required: [true, 'Review must belong to user'],
+
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, "Review must belong to a user"],
+      index: true,
     },
-    course: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Course',
-      required: [true, 'Review must belong to a course'],
+
+    courseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: [true, "Review must belong to a course"],
+      index: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 
-// Static method to calculate average ratings
+reviewSchema.index({ userId: 1, courseId: 1 }, { unique: true });
+
 reviewSchema.statics.calcAverageRatingsAndQuantity = async function (courseId) {
   const result = await this.aggregate([
     {
-      $match: { course: courseId },
+      $match: {
+        courseId: new mongoose.Types.ObjectId(courseId),
+      },
     },
+
     {
       $group: {
-        _id: '$course',
-        ratingsAverage: { $avg: '$ratings' },
-        ratingsQuantity: { $sum: 1 },
+        _id: "$courseId",
+
+        ratingsAverage: {
+          $avg: "$ratings",
+        },
+
+        ratingsQuantity: {
+          $sum: 1,
+        },
       },
     },
   ]);
 
   if (result.length > 0) {
-    await Course.findByIdAndUpdate(courseId, {
-      rating: result[0].ratingsAverage.toFixed(1),
-      ratingsQuantity: result[0].ratingsQuantity,
-      reviewsCount: result[0].ratingsQuantity,
-    });
+    const average = Number(result[0].ratingsAverage.toFixed(1));
+
+    await Course.findByIdAndUpdate(
+      courseId,
+      {
+        ratingsAverage: average,
+        ratingsQuantity: result[0].ratingsQuantity,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
   } else {
-    await Course.findByIdAndUpdate(courseId, {
-      rating: 0,
-      ratingsQuantity: 0,
-      reviewsCount: 0,
-    });
+    await Course.findByIdAndUpdate(
+      courseId,
+      {
+        ratingsAverage: 0,
+        ratingsQuantity: 0,
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
   }
 };
 
-reviewSchema.post('save', async function () {
-  await this.constructor.calcAverageRatingsAndQuantity(this.course);
+reviewSchema.post("save", async function () {
+  await this.constructor.calcAverageRatingsAndQuantity(this.courseId);
 });
 
-reviewSchema.post('remove', async function () {
-  await this.constructor.calcAverageRatingsAndQuantity(this.course);
-});
-
-// For update and delete (findByIdAndUpdate, findByIdAndDelete)
-reviewSchema.post(/^findOneAnd/, async function (doc) {
+reviewSchema.post("findOneAndDelete", async function (doc) {
   if (doc) {
-    await doc.constructor.calcAverageRatingsAndQuantity(doc.course);
+    await doc.constructor.calcAverageRatingsAndQuantity(doc.courseId);
   }
 });
 
-module.exports = mongoose.model('Review', reviewSchema);
+reviewSchema.post(
+  "deleteOne",
+  {
+    document: true,
+    query: false,
+  },
+  async function () {
+    if (this.courseId) {
+      await this.constructor.calcAverageRatingsAndQuantity(this.courseId);
+    }
+  },
+);
+
+reviewSchema.post("findOneAndUpdate", async function (doc) {
+  if (doc) {
+    await doc.constructor.calcAverageRatingsAndQuantity(doc.courseId);
+  }
+});
+
+module.exports = mongoose.model("Review", reviewSchema);

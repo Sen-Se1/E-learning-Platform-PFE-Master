@@ -60,7 +60,7 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: "0:00",
     },
-    rating: {
+    ratingsAverage: {
       type: Number,
       default: 0,
       min: [0, "Rating cannot be less than 0"],
