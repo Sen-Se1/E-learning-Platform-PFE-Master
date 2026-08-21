@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
-const User = require("../models/userModel");
+const User = require("../schemas/userSchema");
 
 /**
  * @desc   make sure the user is logged in

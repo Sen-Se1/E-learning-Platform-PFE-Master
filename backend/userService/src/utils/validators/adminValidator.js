@@ -1,7 +1,7 @@
 const { body, param } = require("express-validator");
 const validator = require("validator");
 const validatorMiddleware = require("../../middleware/validatorMiddleware");
-const User = require("../../models/userModel");
+const User = require("../../schemas/userSchema");
 
 const mongoIdStep = param("id")
   .isMongoId()

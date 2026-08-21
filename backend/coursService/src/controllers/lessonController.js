@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const path = require("path");
-const Lesson = require("../models/lessonSchema");
-const Module = require("../models/moduleSchema");
-const Exercise = require("../models/exerciseSchema");
+const Lesson = require("../schemas/lessonSchema");
+const Module = require("../schemas/moduleSchema");
+const Exercise = require("../schemas/exerciseSchema");
 const ApiError = require("../utils/apiError");
 const { getYoutubeDuration } = require("../utils/youtube-duration");
 const { getVimeoDuration } = require("../utils/vimeo-duration");

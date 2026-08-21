@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const Module = require("../models/moduleSchema");
-const Course = require("../models/courseModel");
-const Lesson = require("../models/lessonSchema");
-const Exercise = require("../models/exerciseSchema");
+const Module = require("../schemas/moduleSchema");
+const Course = require("../schemas/courseSchema");
+const Lesson = require("../schemas/lessonSchema");
+const Exercise = require("../schemas/exerciseSchema");
 const ApiError = require("../utils/apiError");
 const {
   recalcCourseDurationFromCourse,

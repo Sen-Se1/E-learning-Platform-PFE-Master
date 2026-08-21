@@ -1,7 +1,7 @@
-const Course = require('../models/courseModel');
-const Module = require('../models/moduleSchema');
-const Lesson = require('../models/lessonSchema');
-const Exercise = require('../models/exerciseSchema');
+const Course = require('../schemas/courseSchema');
+const Module = require('../schemas/moduleSchema');
+const Lesson = require('../schemas/lessonSchema');
+const Exercise = require('../schemas/exerciseSchema');
 
 const recalculateDuration = async (courseId) => {
   if (!courseId) return;

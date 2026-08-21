@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Email = require("../utils/emailTemplate");
 const ApiError = require("../utils/apiError");
-const User = require("../models/userModel");
+const User = require("../schemas/userSchema");
 
 /**
  * @desc    Get all users (Admin only)

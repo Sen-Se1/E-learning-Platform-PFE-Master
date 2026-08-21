@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const path = require("path");
 const asyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
-const Course = require("../models/courseModel");
-const Module = require("../models/moduleSchema");
-const Lesson = require("../models/lessonSchema");
-const Exercise = require("../models/exerciseSchema");
+const Course = require("../schemas/courseSchema");
+const Module = require("../schemas/moduleSchema");
+const Lesson = require("../schemas/lessonSchema");
+const Exercise = require("../schemas/exerciseSchema");
 const { uploadToS3 } = require("../utils/s3Service");
 const axios = require("axios");
 

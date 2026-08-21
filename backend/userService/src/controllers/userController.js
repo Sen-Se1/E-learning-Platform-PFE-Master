@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Email = require("../utils/emailTemplate");
 const createToken = require("../utils/createJWT");
 const ApiError = require("../utils/apiError");
-const User = require("../models/userModel");
+const User = require("../schemas/userSchema");
 const { generateToken, hashToken } = require("../utils/verificationToken");
 
 

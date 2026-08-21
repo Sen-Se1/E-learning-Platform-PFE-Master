@@ -1,6 +1,6 @@
 const { check } = require('express-validator');
 const valitatorMiddleware = require('../../middleware/validatorMiddleware');
-const Lesson = require('../../models/lessonSchema');
+const Lesson = require('../../schemas/lessonSchema');
 
 exports.createExerciseValidator = [
   check('title')

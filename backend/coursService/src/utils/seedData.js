@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const Course = require('../models/courseModel');
+const Course = require('../schemas/courseSchema');
 
 // Use path.join to avoid relativity issues
 dotenv.config({ path: path.join(__dirname, '../../.env') });

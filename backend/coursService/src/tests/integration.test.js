@@ -8,7 +8,7 @@ const { xss } = require('express-xss-sanitizer');
 // Import app components - relative to src/tests/
 const mountRoutes = require('../routes');
 const globalError = require('../middleware/errorMiddleware');
-const Course = require('../models/courseModel');
+const Course = require('../schemas/courseSchema');
 
 // Setup a test app
 const app = express();

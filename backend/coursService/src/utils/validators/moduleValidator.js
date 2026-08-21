@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const validatorMiddleware = require("../../middleware/validatorMiddleware");
-const Course = require("../../models/courseModel");
+const Course = require("../../schemas/courseSchema");
 
 exports.createModuleValidator = [
   check("title")

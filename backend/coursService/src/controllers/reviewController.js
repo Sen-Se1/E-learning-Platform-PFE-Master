@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const Review = require("../models/reviewModel");
+const Review = require("../schemas/reviewSchema");
 const ApiError = require("../utils/apiError");
 
 // @desc    Create review

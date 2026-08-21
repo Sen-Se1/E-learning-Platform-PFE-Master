@@ -1,7 +1,7 @@
 const { body, param } = require("express-validator");
 const validatorMiddleware = require("../../middleware/validatorMiddleware");
 const validator = require("validator");
-const User = require("../../models/userModel");
+const User = require("../../schemas/userSchema");
 
 exports.registerValidator = [
   body("email")

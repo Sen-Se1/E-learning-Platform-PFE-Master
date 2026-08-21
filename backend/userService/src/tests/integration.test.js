@@ -16,7 +16,7 @@ jest.mock('../utils/emailTemplate', () => ({
 // Import app components - relative to src/tests/
 const mountRoutes = require('../routes');
 const globalError = require('../middleware/errorMiddleware');
-const User = require('../models/userModel');
+const User = require('../schemas/userSchema');
 
 // Setup a test app
 const app = express();
